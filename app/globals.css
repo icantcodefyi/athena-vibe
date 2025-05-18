@@ -120,3 +120,93 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add custom animation keyframes */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sun-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes moon-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.1) rotate(15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 40px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* Animation utility classes */
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+  }
+  
+  .animate-fade-up {
+    animation: fade-up 1s ease-out forwards;
+  }
+  
+  .animate-sun-rise {
+    animation: sun-rise 2s ease-out forwards;
+  }
+  
+  .animate-moon-rise {
+    animation: moon-rise 2s ease-out forwards;
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+}

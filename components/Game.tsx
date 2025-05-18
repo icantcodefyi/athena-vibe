@@ -7,25 +7,26 @@ import { DayPhase } from "./DayPhase";
 import { VotingPhase } from "./VotingPhase";
 import { NightPhase } from "./NightPhase";
 import { ResultsPhase } from "./ResultsPhase";
+import { PhaseTransition } from "./PhaseTransition";
 
 export function Game() {
   const { gameState } = useGame();
 
-  // Render the appropriate phase component based on current game state
-  switch (gameState.phase) {
-    case 'lobby':
-      return <LobbyPhase />;
-    case 'role-assignment':
-      return <RoleAssignmentPhase />;
-    case 'day':
-      return <DayPhase />;
-    case 'voting':
-      return <VotingPhase />;
-    case 'night':
-      return <NightPhase />;
-    case 'results':
-      return <ResultsPhase />;
-    default:
-      return <div>Unknown game phase</div>;
-  }
+  return (
+    <>
+      {/* Phase transition animation overlay */}
+      <PhaseTransition
+        phase={gameState.phase}
+        dayCount={gameState.dayCount}
+      />
+      
+      {/* Render the appropriate phase component based on current game state */}
+      {gameState.phase === 'lobby' && <LobbyPhase />}
+      {gameState.phase === 'role-assignment' && <RoleAssignmentPhase />}
+      {gameState.phase === 'day' && <DayPhase />}
+      {gameState.phase === 'voting' && <VotingPhase />}
+      {gameState.phase === 'night' && <NightPhase />}
+      {gameState.phase === 'results' && <ResultsPhase />}
+    </>
+  );
 } 
