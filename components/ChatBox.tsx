@@ -41,7 +41,7 @@ export function ChatBox() {
   };
 
   const isActivePhase = gameState.phase === 'day' || gameState.phase === 'voting';
-  const isDead = currentPlayer && !currentPlayer.isAlive;
+  const isDead = currentPlayer ? !currentPlayer.isAlive : false;
 
   if (!isActivePhase) {
     return null; // Don't display chat during non-discussion phases
@@ -85,7 +85,7 @@ export function ChatBox() {
                   <div className="flex items-center gap-1 mb-1 text-xs font-medium">
                     {isAI && <Bot className="h-3 w-3" />}
                     <span>{player?.name}</span>
-                    {!player?.isAlive && <span className="text-red-500">(Dead)</span>}
+                    {player && !player.isAlive && <span className="text-red-500">(Dead)</span>}
                   </div>
                   <p>{chatMsg.content}</p>
                 </div>

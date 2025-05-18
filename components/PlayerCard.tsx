@@ -31,15 +31,15 @@ export function PlayerCard({
   const getRoleImage = () => {
     if (showRole || isCurrentPlayer) {
       switch (player.role) {
-        case 'mafia': return '/mafia.jpeg';
-        case 'detective': return '/detective.jpeg';
-        case 'doctor': return '/doctor.jpeg';
-        case 'villager': return player.gender === 'male' ? '/villager-boy.jpeg' : '/villager-girl.jpeg';
-        default: return player.gender === 'male' ? '/villager-boy.jpeg' : '/villager-girl.jpeg';
+        case 'mafia': return '/mafia.webp';
+        case 'detective': return '/detective.webp';
+        case 'doctor': return '/doctor.webp';
+        case 'villager': return player.gender === 'male' ? '/villager-boy.webp' : '/villager-girl.webp';
+        default: return player.gender === 'male' ? '/villager-boy.webp' : '/villager-girl.webp';
       }
     } else {
       // If not showing role, show generic villager image based on gender
-      return player.gender === 'male' ? '/villager-boy.jpeg' : '/villager-girl.jpeg';
+      return player.gender === 'male' ? '/villager-boy.webp' : '/villager-girl.webp';
     }
   };
   
