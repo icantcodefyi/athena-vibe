@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mafia Social Deduction Game
 
-## Getting Started
+A single-player version of the classic social deduction game Mafia, where you play with AI-powered opponents.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Play the classic Mafia game against AI-powered opponents
+- Take on different roles: Villager, Mafia, Detective, or Doctor
+- Real-time chat with AI players that strategize based on their roles
+- Day and night phases with role-specific actions
+- Voting system to eliminate suspected Mafia members
+- Dynamic game state that adapts to player actions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roles
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Villager
+- Goal: Eliminate all Mafia members
+- Ability: Vote during day phase
+- No special night actions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Mafia
+- Goal: Equal or outnumber the innocent players
+- Ability: Vote during day + eliminate a player at night
+- Can coordinate with other Mafia members
 
-## Learn More
+### Detective
+- Goal: Help villagers win
+- Ability: Vote during day + investigate one player at night
+- Learns if the investigated player is Mafia or not
 
-To learn more about Next.js, take a look at the following resources:
+### Doctor
+- Goal: Help villagers win
+- Ability: Vote during day + protect one player at night
+- Can save a player from Mafia elimination
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Game Flow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Lobby Phase**
+   - Enter your name and gender
+   - Generate AI players
+   - Configure game settings
 
-## Deploy on Vercel
+2. **Role Assignment**
+   - You and AI players are randomly assigned roles
+   - View your role and goal
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Day Phase**
+   - Discuss with AI players to identify Mafia
+   - AI players chat based on their roles and game state
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Voting Phase**
+   - Cast your vote to eliminate a suspected Mafia member
+   - AI players also vote based on their strategy
+   - Player with most votes is eliminated
+
+5. **Night Phase**
+   - If you're Mafia: Choose a player to eliminate
+   - If you're Detective: Choose a player to investigate
+   - If you're Doctor: Choose a player to protect
+   - AI players perform their night actions
+
+6. **Results Phase**
+   - Game ends when all Mafia are eliminated (Villagers win) or
+     Mafia equals/outnumbers innocent players (Mafia wins)
+
+## Setup
+
+1. Clone the repository
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env.local` file with your OpenAI API key (for AI chat):
+   ```
+   OPENAI_API_KEY=your_api_key_here
+   ```
+   > You can get an API key at https://platform.openai.com/api-keys
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Technologies
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn UI
+- OpenAI API
+
+## License
+
+This project is built for educational purposes.
+
+## Credits
+
+- Roles images are for demonstration purposes only.
+- Game mechanics based on the traditional Mafia/Werewolf party game.

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PlayerCard } from "@/components/PlayerCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GameLog } from "@/components/GameLog";
+import { ChatBox } from "@/components/ChatBox";
 import { Vote } from "lucide-react";
 
 export function VotingPhase() {
@@ -77,6 +78,8 @@ export function VotingPhase() {
                 />
               ))}
             </div>
+            
+            <ChatBox />
 
             <GameLog />
             

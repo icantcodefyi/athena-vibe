@@ -6,6 +6,7 @@ import { PlayerCard } from "@/components/PlayerCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GameLog } from "@/components/GameLog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 
 export function NightPhase() {
@@ -33,19 +34,31 @@ export function NightPhase() {
   // Determine if detective has investigated a mafia member
   const detectiveResult = detectiveTarget ? detectiveTarget.role === 'mafia' : null;
   
-  // Count total night actions
-  const requiredActions = [isMafia, isDetective, isDoctor].filter(Boolean).length;
-  const completedActions = [
-    (isMafia && hasMafiaAction),
-    (isDetective && hasDetectiveAction),
-    (isDoctor && hasDoctorAction)
-  ].filter(Boolean).length;
+  // Count AI players by role that are alive
+  const aiMafia = gameState.players.filter(p => p.isAI && p.isAlive && p.role === 'mafia').length;
+  const aiDetectives = gameState.players.filter(p => p.isAI && p.isAlive && p.role === 'detective').length;
+  const aiDoctors = gameState.players.filter(p => p.isAI && p.isAlive && p.role === 'doctor').length;
   
-  // Night is complete if all players with night actions have submitted them
-  const isNightComplete = completedActions >= requiredActions;
+  // Count required player actions
+  const humanActionRequired = (
+    (isMafia && !hasMafiaAction) || 
+    (isDetective && !hasDetectiveAction) || 
+    (isDoctor && !hasDoctorAction)
+  );
+  
+  // AI actions are considered "completed" if the corresponding action exists
+  const aiActionsNeeded = aiMafia + aiDetectives + aiDoctors;
+  const aiActionsCompleted = (
+    (aiMafia > 0 && hasMafiaAction ? 1 : 0) + 
+    (aiDetectives > 0 && hasDetectiveAction ? 1 : 0) + 
+    (aiDoctors > 0 && hasDoctorAction ? 1 : 0)
+  );
+  
+  // Night is complete when human and AI actions are done
+  const isNightComplete = !humanActionRequired && (aiActionsCompleted >= aiActionsNeeded || !gameState.aiThinking);
   
   // Host can force proceed to next day
-  const canProceed = isHost && (isNightComplete || completedActions > 0);
+  const canProceed = isHost && (isNightComplete || (!humanActionRequired && !gameState.aiThinking));
 
   return (
     <div className="container mx-auto py-8">
@@ -57,7 +70,7 @@ export function NightPhase() {
                 <CardTitle className="text-2xl flex items-center gap-2">
                   <div className="relative w-8 h-8">
                     <Image
-                      src="/night.jpeg"
+                      src="/night.svg"
                       alt="Night"
                       fill
                       className="object-contain"
@@ -70,8 +83,19 @@ export function NightPhase() {
                 </CardDescription>
               </div>
               <div className="text-right">
-                <div className="text-sm text-blue-300">Actions</div>
-                <div className="text-lg font-semibold">{completedActions}/{requiredActions}</div>
+                {gameState.aiThinking ? (
+                  <div className="flex items-center gap-2 text-blue-200">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    AI thinking...
+                  </div>
+                ) : (
+                  <div>
+                    <div className="text-sm text-blue-300">Night actions</div>
+                    <div className="text-lg font-semibold">
+                      {humanActionRequired ? "Waiting for you" : "Complete"}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </CardHeader>
@@ -169,6 +193,12 @@ export function NightPhase() {
                 <AlertTitle>Night time</AlertTitle>
                 <AlertDescription>
                   You have no special night actions. Wait for the night to end.
+                  {gameState.aiThinking && (
+                    <div className="flex items-center gap-2 mt-2 text-sm">
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      AI players are performing their actions...
+                    </div>
+                  )}
                 </AlertDescription>
               </Alert>
             )}
@@ -195,12 +225,12 @@ export function NightPhase() {
                 >
                   {isNightComplete 
                     ? "Proceed to Morning" 
-                    : "Force End Night"
+                    : "Wait for Night Actions"
                   }
                 </Button>
               ) : (
                 <p className="text-center text-muted-foreground">
-                  {(isMafia && !hasMafiaAction) || (isDetective && !hasDetectiveAction) || (isDoctor && !hasDoctorAction)
+                  {humanActionRequired
                     ? "Please complete your night action"
                     : "Waiting for night to end..."
                   }

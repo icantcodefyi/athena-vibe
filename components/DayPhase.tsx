@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PlayerCard } from "@/components/PlayerCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GameLog } from "@/components/GameLog";
+import { ChatBox } from "@/components/ChatBox";
 import Image from "next/image";
 
 export function DayPhase() {
@@ -28,7 +29,7 @@ export function DayPhase() {
                 <CardTitle className="text-2xl flex items-center gap-2">
                   <div className="relative w-8 h-8">
                     <Image
-                      src="/day.jpeg"
+                      src="/day.svg"
                       alt="Day"
                       fill
                       className="object-contain"
@@ -52,6 +53,8 @@ export function DayPhase() {
                 <PlayerCard key={player.id} player={player} />
               ))}
             </div>
+
+            <ChatBox />
 
             <GameLog />
             
